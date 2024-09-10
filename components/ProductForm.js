@@ -11,8 +11,8 @@ export default function ProductForm({
     const [title, setTitle] = useState(existingTitle || '');
     const [description, setDescription] = useState(existingDescription || '');
     const [price, setPrice] = useState(existingPrice || '');
-    const [goToProducts, setGoToProducts] = useState(false); // Eklendi
-    const router = useRouter(); // Güncellendi
+    const [goToProducts, setGoToProducts] = useState(false);
+    const router = useRouter();
 
     async function saveProduct(ev) {
         ev.preventDefault();
@@ -26,11 +26,13 @@ export default function ProductForm({
             if (_id) {
                 // Update
                 await axios.put('/api/products', { ...data, _id });
+                setGoToProducts(true);
             } else {
                 // Create
                 await axios.post('/api/products', data);
+                setGoToProducts(true);
             }
-            setGoToProducts(true);
+
         } catch (error) {
             console.error("An error occurred while saving the product:", error);
             // Hata mesajı gösterme veya kullanıcıyı bilgilendirme işlemleri yapılabilir
@@ -51,7 +53,12 @@ export default function ProductForm({
                 value={title}
                 onChange={ev => setTitle(ev.target.value)}
             />
-
+            <label>
+                Photos
+            </label>
+            <div>
+                
+            </div>
             <label>Description</label>
             <textarea
                 placeholder="Description"
@@ -59,7 +66,7 @@ export default function ProductForm({
                 onChange={ev => setDescription(ev.target.value)}
             />
 
-            <label>Price (in USD)</label>
+            <label>Price (in £)</label>
             <input
                 type="number"
                 placeholder="Price"
