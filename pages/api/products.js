@@ -5,7 +5,7 @@ import { mongooseConnect } from "@/lib/mongoose";
 export default async function handle(req, res) {
     const { method } = req;
     await mongooseConnect();
-    
+
 
     if (method === 'GET') {
         if (req.query?.id) {
@@ -16,22 +16,22 @@ export default async function handle(req, res) {
     }
 
     if (method === 'POST') {
-        const { title, description, price } = req.body;
+        const { title, description, price, images } = req.body;
         const productDoc = await Product.create({
-            title, description, price
+            title, description, price, images
         })
         res.json(productDoc);
     }
 
     if (method === 'PUT') {
-        const { title, description, price, _id } = req.body;
-        await Product.updateOne({ _id }, { title, description, price});
+        const { title, description, price, images, _id } = req.body;
+        await Product.updateOne({ _id }, { title, description, price, images });
         res.json(true);
     }
-    if (method === 'DELETE' ){
-        if (req.query?.id){
-            await Product.deleteOne({_id:req.query?.id})
+    if (method === 'DELETE') {
+        if (req.query?.id) {
+            await Product.deleteOne({ _id: req.query?.id })
             res.json(true);
         }
-        }
+    }
 }
