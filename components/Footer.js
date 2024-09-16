@@ -2,7 +2,7 @@
 
 export default function Footer() {
     return (
-        <footer className="text-center  text-white italic border-t bg-black absolute bottom-0 right-0 left-0">
+        <footer className="text-center  text-white italic border-t bg-[#0f1111] absolute bottom-0 right-0 left-0">
             <div className="text-center">
                 <p>&copy; {new Date().getFullYear()} My E-commerce Site. All rights reserved.</p>
                 <p>
