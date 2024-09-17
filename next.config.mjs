@@ -1,13 +1,14 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  env: {
-    S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
-    S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
-    MONGODB_URI: process.env.MONGODB_URI,
-    GOOGLE_ID: process.env.GOOGLE_ID,
-    GOOGLE_SECRET: process.env.GOOGLE_SECRET,
+// next.config.js
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+        net: false,
+        tls: false,
+        child_process: false,
+      };
+    }
+    return config;
   },
 };
-
-export default nextConfig;
