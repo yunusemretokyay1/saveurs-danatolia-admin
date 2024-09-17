@@ -17,7 +17,25 @@ export const authOptions = {
   callbacks: {
     session: ({ session, token, user }) => {
       if (adminEmails.includes(session?.user?.email)) {
-        return session;
+        return session; a// next.config.js
+        module.exports = {
+          webpack: (config, { isServer }) => {
+            if (isServer) {
+              // Server tarafında yapılacak özel Webpack ayarları
+            } else {
+              // Client tarafında yapılacak özel Webpack ayarları
+              config.resolve.fallback = {
+                fs: false,
+                net: false,
+                tls: false,
+                dns: false,
+                child_process: false
+              };
+            }
+            return config;
+          },
+        };
+
       } else {
         return false;
       }
