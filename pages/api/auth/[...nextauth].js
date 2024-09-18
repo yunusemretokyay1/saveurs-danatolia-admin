@@ -11,31 +11,14 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET
+
     }),
   ],
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     session: ({ session, token, user }) => {
       if (adminEmails.includes(session?.user?.email)) {
-        return session; a// next.config.js
-        module.exports = {
-          webpack: (config, { isServer }) => {
-            if (isServer) {
-              // Server tarafında yapılacak özel Webpack ayarları
-            } else {
-              // Client tarafında yapılacak özel Webpack ayarları
-              config.resolve.fallback = {
-                fs: false,
-                net: false,
-                tls: false,
-                dns: false,
-                child_process: false
-              };
-            }
-            return config;
-          },
-        };
-
+        return session;
       } else {
         return false;
       }

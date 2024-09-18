@@ -1,6 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+// next.config.js
+const withSvgr = require('next-svgr');
 
-module.exports = nextConfig
+module.exports = withSvgr({
+  reactStrictMode: true,
+  // diğer yapılandırmalarınız
+});

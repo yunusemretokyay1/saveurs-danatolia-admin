@@ -164,14 +164,14 @@ export default function ProductForm({
 
                 {isUploading && <div className="h-24 flex items-center"><Spinner /></div>}
 
-                <label className="w-24 h-24 cursor-pointer text-center flex flex-col items-center justify-center text-sm gap-1 text-black rounded-sm bg-white shadow-sm border border-gray">
+                <label className="w-24 h-24 cursor-pointer text-center flex flex-col items-center justify-center text-sm gap-1 text-custom-black rounded-sm bg-white shadow-sm border border-gray-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                     </svg>
                     <div>Add Image</div>
                     <input type="file" onChange={uploadImages} className="hidden" />
                 </label>
-            </div>
+            </div >
 
             <label>Description</label>
             <textarea
@@ -188,7 +188,7 @@ export default function ProductForm({
                         placeholder="Barcode"
                         value={barcode}
                         onChange={ev => setBarcode(ev.target.value)}
-                        style={{ marginRight: '8px' }}
+                        style={{ marginRight: '4px' }}
                     />
                     <Link
                         href="#"
@@ -199,8 +199,8 @@ export default function ProductForm({
                         style={{
                             display: 'flex',
                             alignItems: 'center',
-                            padding: '8px 12px',
-                            backgroundColor: '#0f1111',
+                            padding: '4px 8px',
+                            backgroundColor: '#5542F6',
                             color: 'white',
                             borderRadius: '2px',
                             textDecoration: 'none',
@@ -247,6 +247,6 @@ export default function ProductForm({
             >
                 Save
             </button>
-        </form>
+        </form >
     );
 }
