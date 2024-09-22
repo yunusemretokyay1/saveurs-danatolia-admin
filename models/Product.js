@@ -8,6 +8,7 @@ const ProductSchema = new Schema({
     category: { type: mongoose.Types.ObjectId, ref: 'Category' },
     properties: { type: Object },
     quantity: { type: Number, default: 0 },
+    barcode: { type: String, unique: true }
 }, {
     timestamps: true,
 });

@@ -7,11 +7,10 @@ export default function Footer() {
             <div className="text-center">
 
 
-                <p>&copy; {new Date().getFullYear()} My E-commerce Site. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} Saveurs d'Anatolie</p>
                 <p>
-                    Follow us on:
-                    <a href="https://twitter.com" className="ml-2 text-blue-400">Twitter</a>,
-                    <a href="https://facebook.com" className="ml-2 text-blue-600">Facebook</a>
+
+
                 </p>
             </div>
         </footer>

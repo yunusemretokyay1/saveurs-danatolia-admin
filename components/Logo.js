@@ -1,6 +1,6 @@
-// Logo.js
+
 import Link from "next/link";
-import LogoSvg from '../public/logo.svg'; // SVG dosyanızı içe aktarın
+import LogoSvg from '../public/logo.svg';
 
 export default function Logo() {
     return (

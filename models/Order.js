@@ -1,3 +1,4 @@
+// models/Order.js
 import { model, models, Schema } from "mongoose";
 
 const OrderSchema = new Schema({
@@ -8,9 +9,10 @@ const OrderSchema = new Schema({
     postalCode: String,
     streetAddress: String,
     country: String,
-    paid: Boolean,
+    paid: { type: Boolean, default: false },
+    status: { type: String, enum: ['pending', 'confirmed', 'canceled'], default: 'pending' },
 }, {
     timestamps: true,
 });
 
-export const Order = models?.Order || model('Order', OrderSchema);
+export const Order = models.Order || model('Order', OrderSchema);

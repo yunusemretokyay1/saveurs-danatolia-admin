@@ -11,7 +11,7 @@ export default async function handle(req, res) {
     await mongooseConnect();
     await isAdminRequest(req, res);
 
-    // Parse the form data
+
     const { fields, files } = await new Promise((resolve, reject) => {
         form.parse(req, (err, fields, files) => {
             if (err) reject(err);
@@ -21,7 +21,7 @@ export default async function handle(req, res) {
 
     console.log('length:', files.file.length);
 
-    // Create an S3 client
+
     const client = new S3Client({
         region: 'eu-west-3',
         credentials: {

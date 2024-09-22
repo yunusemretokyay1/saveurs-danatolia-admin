@@ -24,14 +24,14 @@ export default async function handle(req, res) {
     }
 
     if (method === 'PUT') {
-        // Destructure _id from req.body
+
         const { _id, title, description, price, images, category, properties, barcode, quantity } = req.body;
 
         if (!_id) {
             return res.status(400).json({ error: "Product ID is required" });
         }
 
-        // Update the product document with the given _id
+
         await Product.updateOne({ _id }, { title, description, price, images, category, properties, barcode, quantity });
         res.json({ success: true });
     }

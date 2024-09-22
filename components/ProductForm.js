@@ -233,7 +233,7 @@ export default function ProductForm({
                 onChange={ev => setQuantity(ev.target.value)}
             />
 
-            <label>Price (in USD)</label>
+            <label>Price (in €)</label>
             <input
                 type="number"
                 placeholder="Price"
