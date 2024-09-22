@@ -1,4 +1,4 @@
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&width=435&lines=Saveurs+d'Anatolie++admin+page;How+vexingly+quick+daft+zebras+jump" alt="Typing SVG" /></a>
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&width=435&lines=Saveurs+d'Anatolie++admin+page" alt="Typing SVG" /></a>
 Getting Started
 First, run the development server:
 
