@@ -11,7 +11,7 @@ export default function OrdersPage() {
     const [totalPages, setTotalPages] = useState(1);
     const limit = 7;
     const [successMessage, setSuccessMessage] = useState('');
-    const [selectedProducts, setSelectedProducts] = useState([]); // Change this to an array for multiple products
+    const [selectedProducts, setSelectedProducts] = useState([]); // Store multiple products for modal
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     useEffect(() => {
@@ -62,8 +62,8 @@ export default function OrdersPage() {
         }
     };
 
-    const openModal = (lineItems) => { // Change to receive lineItems
-        setSelectedProducts(lineItems); // Store line items
+    const openModal = (lineItems) => {
+        setSelectedProducts(lineItems); // Store line items for the modal
         setModalIsOpen(true);
     };
 
@@ -110,7 +110,7 @@ export default function OrdersPage() {
                                 {order.line_items.length} products
                                 <button
                                     className="bg-blue-500 text-white px-2 py-1 rounded-md ml-2"
-                                    onClick={() => openModal(order.line_items)}> {/* Pass line items to modal */}
+                                    onClick={() => openModal(order.line_items)}>
                                     Details
                                 </button>
                             </td>
