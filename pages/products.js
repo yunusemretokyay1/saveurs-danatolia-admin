@@ -5,11 +5,13 @@ import axios from "axios";
 
 export default function Products() {
     const [products, setProducts] = useState([]);
+
     useEffect(() => {
         axios.get('/api/products').then(response => {
             setProducts(response.data);
         });
     }, []);
+
     return (
         <Layout>
             <Link className="btn-primary" href={'/products/new'}>Add new product</Link>
@@ -23,7 +25,16 @@ export default function Products() {
                 <tbody>
                     {products.map(product => (
                         <tr key={product._id}>
-                            <td>{product.title}</td>
+                            <td>
+                                <div className="flex items-center">
+                                    {product.title}
+                                    {product.isDiscounted && (
+                                        <span className="text-red-500 ml-2 font-bold">
+                                            Promo
+                                        </span>
+                                    )}
+                                </div>
+                            </td>
                             <td>
                                 <Link className="btn-primary" href={'/products/edit/' + product._id}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">

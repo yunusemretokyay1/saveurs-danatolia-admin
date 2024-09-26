@@ -2,7 +2,7 @@
 import { model, models, Schema } from "mongoose";
 
 const OrderSchema = new Schema({
-    line_items: Object,
+    line_items: Array, // Changed to Array for better handling
     name: String,
     email: String,
     city: String,

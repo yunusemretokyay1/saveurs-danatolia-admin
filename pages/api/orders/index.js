@@ -1,3 +1,4 @@
+// pages/api/orders/index.js
 import { mongooseConnect } from "@/lib/mongoose";
 import { Order } from "@/models/Order";
 
@@ -7,6 +8,7 @@ export default async function handler(req, res) {
 
     try {
         const orders = await Order.find()
+            .populate('line_items.product') // Ensure the line_items are populated correctly
             .sort({ createdAt: -1 })
             .skip((page - 1) * limit)
             .limit(parseInt(limit));
