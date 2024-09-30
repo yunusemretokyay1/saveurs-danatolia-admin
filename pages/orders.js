@@ -1,4 +1,3 @@
-// pages/orders.js
 import Layout from "@/components/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -11,8 +10,9 @@ export default function OrdersPage() {
     const [totalPages, setTotalPages] = useState(1);
     const limit = 7;
     const [successMessage, setSuccessMessage] = useState('');
-    const [selectedProducts, setSelectedProducts] = useState([]); // Store multiple products for modal
+    const [selectedProducts, setSelectedProducts] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [total, setTotal] = useState(0); // New state for total
 
     useEffect(() => {
         fetchOrders(currentPage);
@@ -63,13 +63,16 @@ export default function OrdersPage() {
     };
 
     const openModal = (lineItems) => {
+        const totalAmount = lineItems.reduce((total, item) => total + (item.price_data.unit_amount * item.quantity), 0);
         setSelectedProducts(lineItems); // Store line items for the modal
+        setTotal(totalAmount); // Set the total amount
         setModalIsOpen(true);
     };
 
     const closeModal = () => {
         setModalIsOpen(false);
         setSelectedProducts([]); // Reset selected products
+        setTotal(0); // Reset total
     };
 
     return (
@@ -90,6 +93,9 @@ export default function OrdersPage() {
                         <th className="px-4 py-2 border">Paid</th>
                         <th className="px-4 py-2 border">Recipient</th>
                         <th className="px-4 py-2 border">Products</th>
+                        <th className="px-4 py-2 border">Service</th>
+                        <th className="px-4 py-2 border">Location</th>
+                        <th className="px-4 py-2 border">Date/Time</th>
                         <th className="px-4 py-2 border">Actions</th>
                     </tr>
                 </thead>
@@ -106,13 +112,21 @@ export default function OrdersPage() {
                                 {order.streetAddress}
                             </td>
                             <td className="border px-4 py-2">
-                                {/* Display the number of products */}
                                 {order.line_items.length} products
                                 <button
                                     className="bg-blue-500 text-white px-2 py-1 rounded-md ml-2"
                                     onClick={() => openModal(order.line_items)}>
                                     Details
                                 </button>
+                            </td>
+                            <td className="border px-4 py-2">
+                                {order.service || 'N/A'}
+                            </td>
+                            <td className="border px-4 py-2">
+                                {order.location || 'N/A'}
+                            </td>
+                            <td className="border px-4 py-2">
+                                {order.dateTime ? (new Date(order.dateTime)).toLocaleString() : 'N/A'}
                             </td>
                             <td className="border px-4 py-2">
                                 {order.status === 'confirmed' ? (
@@ -135,7 +149,7 @@ export default function OrdersPage() {
                         </tr>
                     )) : (
                         <tr>
-                            <td colSpan="5" className="border text-center px-4 py-2">No active orders found.</td>
+                            <td colSpan="8" className="border text-center px-4 py-2">No active orders found.</td>
                         </tr>
                     )}
                 </tbody>
@@ -161,7 +175,8 @@ export default function OrdersPage() {
             <ProductModal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
-                products={selectedProducts} // Pass selected products to the modal
+                products={selectedProducts}
+                total={total}
             />
         </Layout>
     );

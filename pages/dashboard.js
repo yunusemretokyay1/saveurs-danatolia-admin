@@ -1,4 +1,3 @@
-// pages/dashboard.js
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 
@@ -6,10 +5,11 @@ export default function Dashboard() {
     const [dashboardData, setDashboardData] = useState({
         productCount: 0,
         orderCount: 0,
-        totalRevenue: 0,
+        totalSoldProducts: 0,
         canceledOrders: 0,
         lowStockProducts: 0,
         decreasingStock: 0,
+        totalRevenue: 0,
         topSellingProducts: [],
     });
 
@@ -29,7 +29,7 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div className="bg-blue-500 text-white p-4 rounded shadow">
                         <h2>Total Sold Products</h2>
-                        <p>{dashboardData.orderCount}</p>
+                        <p>{dashboardData.totalSoldProducts}</p>
                     </div>
                     <div className="bg-red-500 text-white p-4 rounded shadow">
                         <h2>Canceled Orders</h2>
@@ -52,8 +52,8 @@ export default function Dashboard() {
                     <h2>Top Selling Products</h2>
                     <ul>
                         {dashboardData.topSellingProducts.map(product => (
-                            <li key={product.id}>
-                                {product.name}: {product.sales} sold
+                            <li key={product.productInfo?._id}>
+                                {product.productInfo ? product.productInfo.title : "Unknown Product"}: {product.totalSold} sold
                             </li>
                         ))}
                     </ul>

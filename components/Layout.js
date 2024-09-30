@@ -10,8 +10,12 @@ export default function Layout({ children }) {
 
     if (!session) {
         return (
-            <div className="bg-gray-300 w-screen h-screen flex items-center">
-                <div className="text-center w-full">
+            <div className="bg-gray-300 w-screen h-screen flex justify-center items-center">
+                <div className="text-center">
+
+                    <div className="mb-4">
+                        <Logo />
+                    </div>
                     <button
                         onClick={() => signIn('google')}
                         className="bg-white p-2 px-4 rounded-lg"
@@ -20,6 +24,7 @@ export default function Layout({ children }) {
                     </button>
                 </div>
             </div>
+
         );
     }
 

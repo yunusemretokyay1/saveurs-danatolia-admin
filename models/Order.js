@@ -1,18 +1,21 @@
-// models/Order.js
-import { model, models, Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose'; // Ensure Schema is imported
 
 const OrderSchema = new Schema({
-    line_items: Array, // Changed to Array for better handling
-    name: String,
-    email: String,
-    city: String,
-    postalCode: String,
-    streetAddress: String,
-    country: String,
+    line_items: [{ type: Object, required: true }],
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    city: { type: String, required: true },
+    postalCode: { type: String, required: true },
+    streetAddress: { type: String, required: true },
+    country: { type: String, required: true },
     paid: { type: Boolean, default: false },
-    status: { type: String, enum: ['pending', 'confirmed', 'canceled'], default: 'pending' },
+    service: { type: String, required: false },
+    location: { type: String, required: false },
+    dateTime: { type: Date, required: false },
+    total: { type: Number, required: true },
 }, {
     timestamps: true,
 });
 
-export const Order = models.Order || model('Order', OrderSchema);
+
+export const Order = mongoose.models.Order || mongoose.model('Order', OrderSchema);

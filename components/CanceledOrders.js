@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default function CanceledOrders({ canceledOrders }) {
-    // Ensure canceledOrders is always an array
+
     const orders = Array.isArray(canceledOrders) ? canceledOrders : [];
 
     return (

@@ -1,49 +1,78 @@
-// pages/api/dashboard.js
+import { mongooseConnect } from "@/lib/mongoose";
 import { Order } from "@/models/Order";
 import { Product } from "@/models/Product";
-import { mongooseConnect } from "@/lib/mongoose"; // Doğru import fonksiyonu
 
 export default async function handler(req, res) {
-    await mongooseConnect(); // Burada doğru fonksiyonu kullanıyoruz
+    await mongooseConnect();
 
     try {
-        // Sipariş ve ürün verilerini al
         const orderCount = await Order.countDocuments();
         const productCount = await Product.countDocuments();
+
         const newOrders = await Order.find({ status: 'confirmed' }).countDocuments();
         const pendingOrders = await Order.find({ status: 'pending' }).countDocuments();
         const canceledOrders = await Order.find({ status: 'canceled' }).countDocuments();
 
-        const topSellingProducts = await Order.aggregate([
-            { $unwind: '$line_items' }, // Her siparişteki ürünleri ayır
+
+        const totalSoldProducts = await Order.aggregate([
+            { $unwind: '$line_items' },
             {
                 $group: {
-                    _id: '$line_items.productId', // Gruplama: ürün bazında
-                    totalSold: { $sum: '$line_items.quantity' } // Satılan miktarları toplama
+                    _id: null,
+                    totalSold: { $sum: '$line_items.quantity' }
+                }
+            }
+        ]);
+
+
+        const lowStockThreshold = 10;
+        const lowStockProductsCount = await Product.countDocuments({ quantity: { $lt: lowStockThreshold } });
+
+
+        const decreasingStockCount = await Product.countDocuments({ quantity: { $lt: 5 } });
+
+
+        const totalRevenue = await Order.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    total: { $sum: '$total' }
+                }
+            }
+        ]);
+
+        const topSellingProducts = await Order.aggregate([
+            { $unwind: '$line_items' },
+            {
+                $group: {
+                    _id: '$line_items.productId',
+                    totalSold: { $sum: '$line_items.quantity' }
                 }
             },
-            { $sort: { totalSold: -1 } }, // En çok satılanları sıralama
-            { $limit: 5 } // İlk 5 ürünü alma
+            { $sort: { totalSold: -1 } },
+            { $limit: 5 }
         ]).exec();
 
-        // En çok satan ürünlerin bilgilerini al
         const products = await Product.find({ _id: { $in: topSellingProducts.map(p => p._id) } });
 
         const topSellingProductsWithInfo = topSellingProducts.map((item) => {
-            const productInfo = products.find(p => p._id.equals(item._id)); // Ürün bilgisini bul
+            const productInfo = products.find(p => p._id.equals(item._id));
             return {
                 ...item,
-                productInfo, // Ürün bilgilerini ekliyoruz
-            };
+                productInfo,
+            }
         });
 
-        // Tüm verileri geri döndür
         res.status(200).json({
             orderCount,
             productCount,
             newOrders,
             pendingOrders,
             canceledOrders,
+            totalSoldProducts: totalSoldProducts[0]?.totalSold || 0,
+            lowStockProducts: lowStockProductsCount,
+            decreasingStock: decreasingStockCount,
+            totalRevenue: totalRevenue[0]?.total || 0,
             topSellingProducts: topSellingProductsWithInfo
         });
     } catch (error) {
