@@ -54,11 +54,19 @@ export default function OrdersPage() {
 
     const handleConfirmOrder = async (orderId, lineItems) => {
         try {
-            await axios.post('/api/orders/confirm', { orderId, lineItems });
+            // Confirm the order via API
+            const response = await axios.post('/api/orders/confirm', { orderId, lineItems });
             setSuccessMessage('Order confirmed successfully!');
-            fetchOrders(currentPage);
+
+            // Update local state to reflect confirmation
+            setOrders(prevOrders =>
+                prevOrders.map(order =>
+                    order._id === orderId ? { ...order, status: 'confirmed' } : order
+                )
+            );
         } catch (error) {
             console.error('Error confirming order:', error);
+            setSuccessMessage('Failed to confirm order.');
         }
     };
 
@@ -136,12 +144,12 @@ export default function OrdersPage() {
                                         <button
                                             className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
                                             onClick={() => handleConfirmOrder(order._id, order.line_items)}>
-                                            Confirm Order
+                                            Confirm
                                         </button>
                                         <button
                                             className="bg-red-500 text-white px-4 py-2 rounded-md"
                                             onClick={() => handleCancelOrder(order._id)}>
-                                            Cancel Order
+                                            Cancel
                                         </button>
                                     </>
                                 )}
@@ -149,24 +157,23 @@ export default function OrdersPage() {
                         </tr>
                     )) : (
                         <tr>
-                            <td colSpan="8" className="border text-center px-4 py-2">No active orders found.</td>
+                            <td colSpan="8" className="border px-4 py-2 text-center">No active orders found.</td>
                         </tr>
                     )}
                 </tbody>
             </table>
 
-            <div className="flex justify-between items-center mt-4">
+            <div className="flex justify-between mt-4">
                 <button
-                    className="bg-gray-300 px-4 py-2 rounded-md"
                     onClick={handlePrevPage}
-                    disabled={currentPage === 1}>
+                    disabled={currentPage === 1}
+                    className={`bg-gray-400 text-white px-4 py-2 rounded-md ${currentPage === 1 && 'opacity-50 cursor-not-allowed'}`}>
                     Previous
                 </button>
-                <span>Page {currentPage} of {totalPages}</span>
                 <button
-                    className="bg-gray-300 px-4 py-2 rounded-md"
                     onClick={handleNextPage}
-                    disabled={currentPage === totalPages}>
+                    disabled={currentPage === totalPages}
+                    className={`bg-gray-400 text-white px-4 py-2 rounded-md ${currentPage === totalPages && 'opacity-50 cursor-not-allowed'}`}>
                     Next
                 </button>
             </div>
